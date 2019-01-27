@@ -84,3 +84,43 @@ const calculateDistances = (element, sortedArray, smallIndex, largeIndex) => {
   }
   return [smallDistance, largeDistance];
 }
+
+const main = () => {
+  const X = process.argv.slice(3);
+  let Y = new Array(X.length);
+  for(let i = 0; i < Y.length; i++){
+    Y[i] = -1;
+  }
+  Y[0] = X[0];
+  let smallIndex = 0, largeIndex = 0;
+  let smallDistance = 0, largeDistance = 0;
+  console.log(Y);
+  for(let i = 1; i<X.length; i++ ){
+    console.log('\n');
+    let position = findCorrectPosition(X[i],Y,smallIndex,largeIndex);
+    let nextOfLargeIndex = largeIndex + 1;
+    if(nextOfLargeIndex === Y.length){
+      nextOfLargeIndex = 0;
+    }
+    let prevOfSmallIndex = smallIndex - 1;
+    if(prevOfSmallIndex === -1){
+      prevOfSmallIndex = Y.length - 1;
+    }
+
+    if (position === nextOfLargeIndex) {
+      [sortedArray, largeIndex] =  insertAtEnd(X[i], Y, largeIndex);
+    } else if(position === prevOfSmallIndex){
+      [sortedArray, smallIndex] = insertAtBeginning(X[i], Y, smallIndex);
+    } else {
+      [smallDistance, largeDistance] = calculateDistances(X[i], Y, smallIndex, largeIndex);
+      if(smallDistance < largeDistance){
+        [Y, smallIndex] = shiftLeftFrom(position, X[i], Y, smallIndex);
+      }else{
+        [Y, largeIndex] = shiftRightFrom(position, X[i], Y, largeIndex);
+      }
+    }
+    console.log(Y);
+  }
+};
+
+main();
