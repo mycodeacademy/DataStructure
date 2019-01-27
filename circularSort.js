@@ -94,6 +94,7 @@ const main = () => {
   Y[0] = X[0];
   let smallIndex = 0, largeIndex = 0;
   let smallDistance = 0, largeDistance = 0;
+  console.log(Y);
   for(let i = 1; i<X.length; i++ ){
 
     let position = findCorrectPosition(X[i],Y,smallIndex,largeIndex);
@@ -119,9 +120,8 @@ const main = () => {
         [Y, largeIndex] = shiftRightFrom(position, X[i], Y, largeIndex);
       }
     }
+    console.log(Y);
   }
-  console.log(Y);
 };
 
 main();
-
