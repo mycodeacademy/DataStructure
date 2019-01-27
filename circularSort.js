@@ -34,7 +34,6 @@ const findCorrectPosition = (element, sortedArray, smallIndex, largeIndex) => {
   }
   // correct position somewhere in between
   else{
-    console.log('IN BETWEEN');
     for (let i = smallIndex; i != largeIndex+1; i = (i+1) % sortedArray.length){
       if (sortedArray[i] > element) {
         return i;
@@ -95,11 +94,9 @@ const main = () => {
   Y[0] = X[0];
   let smallIndex = 0, largeIndex = 0;
   let smallDistance = 0, largeDistance = 0;
-  console.log(Y);
   for(let i = 1; i<X.length; i++ ){
 
     let position = findCorrectPosition(X[i],Y,smallIndex,largeIndex);
-    console.log(X[i], position);
 
     let nextOfLargeIndex = largeIndex + 1;
     if(nextOfLargeIndex === Y.length){
@@ -116,15 +113,14 @@ const main = () => {
       [sortedArray, smallIndex] = insertAtBeginning(X[i], Y, smallIndex);
     } else {
       [smallDistance, largeDistance] = calculateDistances(X[i], Y, smallIndex, largeIndex);
-      console.log(smallDistance, largeDistance);
       if(smallDistance < largeDistance){
         [Y, smallIndex] = shiftLeftFrom(position, X[i], Y, smallIndex);
       }else{
         [Y, largeIndex] = shiftRightFrom(position, X[i], Y, largeIndex);
       }
     }
-    console.log(Y);
   }
+  console.log(Y);
 };
 
 main();
