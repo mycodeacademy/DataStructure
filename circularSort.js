@@ -15,3 +15,31 @@ const insertAtEnd = (element, sortedArray, largeIndex) => {
   sortedArray[largeIndex] = element;
   return [sortedArray, largeIndex];
 }
+
+const findCorrectPosition = (element, sortedArray, smallIndex, largeIndex) => {
+  let correctPos = 0;
+  // correct position before smallest
+  if(element < sortedArray[smallIndex]) {
+      correctPos = smallIndex - 1;
+      if(correctPos === -1){
+        correctPos = sortedArray.length - 1;
+      }
+  }
+  // correct position after largest
+  else if(element > sortedArray[largeIndex]){
+    correctPos = largeIndex + 1;
+    if(correctPos === sortedArray.length){
+      correctPos = 0;
+    }
+  }
+  // correct position somewhere in between
+  else{
+    for (let i = smallIndex; i != largeIndex+1; i = (i+1) % sortedArray.length){
+      if (sortedArray[i] > element) {
+        return i;
+      }
+    }
+    
+  }
+  return correctPos;
+};
