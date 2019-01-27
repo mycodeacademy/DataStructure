@@ -34,6 +34,7 @@ const findCorrectPosition = (element, sortedArray, smallIndex, largeIndex) => {
   }
   // correct position somewhere in between
   else{
+    console.log('IN BETWEEN');
     for (let i = smallIndex; i != largeIndex+1; i = (i+1) % sortedArray.length){
       if (sortedArray[i] > element) {
         return i;
@@ -43,29 +44,28 @@ const findCorrectPosition = (element, sortedArray, smallIndex, largeIndex) => {
   }
   return correctPos;
 };
+
 const shiftLeftFrom = (correctPos, element, sortedArray, smallIndex) => {
-  for(let i = smallIndex; i != correctPos; i = (i+1) % sortedArray.length){
+  for(let i = smallIndex; sortedArray[i] < element; i = (i+1) % sortedArray.length){
     let prev = i-1;
     if(prev === -1){
       prev = sortedArray.length - 1;
     }
     sortedArray[prev] = sortedArray[i];
-
+    correctPos = i;
   }
-  if(correctPos === 0){
-    sortedArray[sortedArray.length - 1] = element;
-  }else{
-    sortedArray[correctPos] = element;
-  }
+  sortedArray[correctPos] = element;
   smallIndex = smallIndex - 1;
   return [sortedArray, smallIndex];
 }
+
 const shiftRightFrom = (correctPos, element, sortedArray, largeIndex) => {
-  for(let i = largeIndex; i != correctPos - 1 ; i = i- 1) {
+  for(let i = largeIndex; sortedArray[i] > element ; i = i- 1) {
     if(i === -1){
       i = sortedArray.length - 1;
     }
     sortedArray[i+1] = sortedArray[i];
+    correctPos = i;
   }
   sortedArray[correctPos] = element;
   largeIndex = largeIndex + 1;
@@ -86,7 +86,8 @@ const calculateDistances = (element, sortedArray, smallIndex, largeIndex) => {
 }
 
 const main = () => {
-  const X = process.argv.slice(3);
+  const inputs = process.argv.slice(3);
+  const X = inputs.map(Number);
   let Y = new Array(X.length);
   for(let i = 0; i < Y.length; i++){
     Y[i] = -1;
@@ -96,8 +97,10 @@ const main = () => {
   let smallDistance = 0, largeDistance = 0;
   console.log(Y);
   for(let i = 1; i<X.length; i++ ){
-    console.log('\n');
+
     let position = findCorrectPosition(X[i],Y,smallIndex,largeIndex);
+    console.log(X[i], position);
+
     let nextOfLargeIndex = largeIndex + 1;
     if(nextOfLargeIndex === Y.length){
       nextOfLargeIndex = 0;
@@ -113,6 +116,7 @@ const main = () => {
       [sortedArray, smallIndex] = insertAtBeginning(X[i], Y, smallIndex);
     } else {
       [smallDistance, largeDistance] = calculateDistances(X[i], Y, smallIndex, largeIndex);
+      console.log(smallDistance, largeDistance);
       if(smallDistance < largeDistance){
         [Y, smallIndex] = shiftLeftFrom(position, X[i], Y, smallIndex);
       }else{
@@ -124,3 +128,4 @@ const main = () => {
 };
 
 main();
+
