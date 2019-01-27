@@ -60,3 +60,27 @@ const shiftLeftFrom = (correctPos, element, sortedArray, smallIndex) => {
   smallIndex = smallIndex - 1;
   return [sortedArray, smallIndex];
 }
+const shiftRightFrom = (correctPos, element, sortedArray, largeIndex) => {
+  for(let i = largeIndex; i != correctPos - 1 ; i = i- 1) {
+    if(i === -1){
+      i = sortedArray.length - 1;
+    }
+    sortedArray[i+1] = sortedArray[i];
+  }
+  sortedArray[correctPos] = element;
+  largeIndex = largeIndex + 1;
+  return [sortedArray, largeIndex];
+};
+
+const calculateDistances = (element, sortedArray, smallIndex, largeIndex) => {
+  let smallDistance = 0, largeDistance = 0;
+  for(let i = smallIndex; i != largeIndex + 1; i = (i+1) % sortedArray.length){
+    if(sortedArray[i] < element){
+      smallDistance = smallDistance + 1;
+    }
+    else{
+      largeDistance = largeDistance + 1;
+    }
+  }
+  return [smallDistance, largeDistance];
+}
