@@ -43,3 +43,20 @@ const findCorrectPosition = (element, sortedArray, smallIndex, largeIndex) => {
   }
   return correctPos;
 };
+const shiftLeftFrom = (correctPos, element, sortedArray, smallIndex) => {
+  for(let i = smallIndex; i != correctPos; i = (i+1) % sortedArray.length){
+    let prev = i-1;
+    if(prev === -1){
+      prev = sortedArray.length - 1;
+    }
+    sortedArray[prev] = sortedArray[i];
+
+  }
+  if(correctPos === 0){
+    sortedArray[sortedArray.length - 1] = element;
+  }else{
+    sortedArray[correctPos] = element;
+  }
+  smallIndex = smallIndex - 1;
+  return [sortedArray, smallIndex];
+}
