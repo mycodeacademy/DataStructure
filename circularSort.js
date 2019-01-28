@@ -122,6 +122,7 @@ const main = () => {
     }
     console.log(Y);
   }
+  return Y;
 };
 
 main();
